@@ -45,97 +45,14 @@
   </style>
 </head>
 <body>
-  <h1>URKNALL = ERSTE 1</h1>
-  <p>Ein Bit-Flip. Dann: Inflation. Expansion. Sterne. Alles.</p>
+  <h1>URKNALL = 1</h1>
+  <p>Ein Bit-Flip. Dann: <strong>Inflation</strong>. Expansion. <strong>Sterne</strong>.</p>
   <canvas id="canvas" width="800" height="500"></canvas>
   <div class="info" id="info"></div>
   <div class="footer">
     Entdeckt von <a href="https://x.com/MeurerMicha" target="_blank">@MeurerMicha</a> | 
-    <a href="https://github.com/MichaMeurer77/urknall" target="_blank">Code auf GitHub</a>
+    <a href="https://github.com/MichaMeurer77/Urknall" target="_blank">Code auf GitHub</a> | 
+    <a href="https://x.com/MeurerMicha" target="_blank">Teile auf X</a>
   </div>
-
-  <script>
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    const info = document.getElementById('info');
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-    let radius = 0;
-    let ticks = 0;
-    const stars = [];
-
-    function createStarIfInWave() {
-      if (ticks % 3 === 0 && radius > 20) {
-        const angle = Math.random() * Math.PI * 2;
-        const dist = radius * (0.3 + Math.random() * 0.7);
-        const x = centerX + dist * Math.cos(angle);
-        const y = centerY + dist * Math.sin(angle);
-
-        stars.push({
-          x, y,
-          birthRadius: radius,
-          size: Math.random() * 1.8,
-          brightness: 0.3 + Math.random() * 0.7
-        });
-      }
-    }
-
-    function drawStars() {
-      stars.forEach(star => {
-        const scale = radius / star.birthRadius;
-        const currentX = centerX + (star.x - centerX) * scale;
-        const currentY = centerY + (star.y - centerY) * scale;
-
-        if (currentX > -50 && currentX < canvas.width + 50 && 
-            currentY > -50 && currentY < canvas.height + 50) {
-          ctx.beginPath();
-          ctx.arc(currentX, currentY, star.size * Math.min(scale * 0.5, 2), 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(255, 255, 255, ${star.brightness})`;
-          ctx.fill();
-        }
-      });
-    }
-
-    function draw() {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.07)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      const pulse = 0.5 + 0.5 * Math.sin(ticks * 0.07);
-      const opacity = 0.25 + 0.6 * pulse;
-
-      const gradient = ctx.createRadialGradient(centerX, centerY, radius * 0.7, centerX, centerY, radius);
-      gradient.addColorStop(0, `rgba(0, 120, 255, ${opacity})`);
-      gradient.addColorStop(1, `rgba(0, 0, 200, ${opacity * 0.3})`);
-
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-      ctx.fillStyle = gradient;
-      ctx.fill();
-      ctx.strokeStyle = '#00f';
-      ctx.lineWidth = 3 + pulse * 3;
-      ctx.stroke();
-
-      createStarIfInWave();
-      drawStars();
-
-      const planckLength = 1.616e-35;
-      const lightYear = 9.461e15;
-      const radiusLY = (radius * planckLength / lightYear).toExponential(2);
-      const ageYears = (ticks * 5.391e-44 / (60*60*24*365.25)).toExponential(2);
-
-      info.innerHTML = `
-        <strong>Takt:</strong> ${ticks.toLocaleString('de-DE')} | 
-        <strong>Radius:</strong> ${radiusLY} Lichtjahre<br>
-        <strong>Zeit seit Urknall:</strong> ${ageYears} Jahre | 
-        <strong>Sterne:</strong> ${stars.length}
-      `;
-
-      radius += 1;
-      ticks++;
-      requestAnimationFrame(draw);
-    }
-
-    draw();
-  </script>
 </body>
 </html>
